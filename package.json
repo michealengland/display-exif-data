@@ -1,0 +1,27 @@
+{
+  "name": "display-exif-data",
+  "version": "0.0.2",
+  "description": "Tooling for Display Exif Data plugin.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "wp-scripts start",
+    "build": "wp-scripts build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michealengland/display-exif-data"
+  },
+  "keywords": [
+    "Gutenberg",
+    "Exif Data"
+  ],
+  "author": "Mike England",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/michealengland/theme-contrast-analyzer/issues"
+  },
+  "homepage": "https://github.com/michealengland/theme-contrast-analyzer#readme",
+  "devDependencies": {
+    "@wordpress/scripts": "6.2.0"
+  }
+}
