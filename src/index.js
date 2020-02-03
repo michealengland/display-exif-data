@@ -1,2 +1,1 @@
-// import './block-contrast-analyzer';
-import './test-block';
+import './exif-data-block';

@@ -1,0 +1,54 @@
+{
+	"exifDataToggle": {
+		"type": "boolean",
+		"default": false
+	},
+	"exifAperture": {
+		"type": "string",
+		"default": ""
+	},
+	"exifCredit": {
+		"type": "string",
+		"default": "test"
+	},
+	"exifCamera": {
+		"type": "string",
+		"default": ""
+	},
+	"exifCaption": {
+		"type": "string",
+		"default": ""
+	},
+	"exifCreatedTimeStamp": {
+		"type": "string",
+		"default": ""
+	},
+	"exifCopyright": {
+		"type": "string",
+		"default": ""
+	},
+	"exifFocalLength": {
+		"type": "string",
+		"default": ""
+	},
+	"exifIso": {
+		"type": "string",
+		"default": ""
+	},
+	"exifShutterSpeed": {
+		"type": "string",
+		"default": ""
+	},
+	"exifTitle": {
+		"type": "string",
+		"default": ""
+	},
+	"exifOrientation": {
+		"type": "string",
+		"default": ""
+	},
+	"exifKeywords": {
+		"type": "array",
+		"default": []
+	}
+}

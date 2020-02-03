@@ -86,6 +86,150 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/exif-data-block/attributes.json":
+/*!*********************************************!*\
+  !*** ./src/exif-data-block/attributes.json ***!
+  \*********************************************/
+/*! exports provided: exifDataToggle, exifAperture, exifCredit, exifCamera, exifCaption, exifCreatedTimeStamp, exifCopyright, exifFocalLength, exifIso, exifShutterSpeed, exifTitle, exifOrientation, exifKeywords, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"exifDataToggle\":{\"type\":\"boolean\",\"default\":false},\"exifAperture\":{\"type\":\"string\",\"default\":\"\"},\"exifCredit\":{\"type\":\"string\",\"default\":\"test\"},\"exifCamera\":{\"type\":\"string\",\"default\":\"\"},\"exifCaption\":{\"type\":\"string\",\"default\":\"\"},\"exifCreatedTimeStamp\":{\"type\":\"string\",\"default\":\"\"},\"exifCopyright\":{\"type\":\"string\",\"default\":\"\"},\"exifFocalLength\":{\"type\":\"string\",\"default\":\"\"},\"exifIso\":{\"type\":\"string\",\"default\":\"\"},\"exifShutterSpeed\":{\"type\":\"string\",\"default\":\"\"},\"exifTitle\":{\"type\":\"string\",\"default\":\"\"},\"exifOrientation\":{\"type\":\"string\",\"default\":\"\"},\"exifKeywords\":{\"type\":\"array\",\"default\":[]}}");
+
+/***/ }),
+
+/***/ "./src/exif-data-block/index.js":
+/*!**************************************!*\
+  !*** ./src/exif-data-block/index.js ***!
+  \**************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _attributes_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./attributes.json */ "./src/exif-data-block/attributes.json");
+var _attributes_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./attributes.json */ "./src/exif-data-block/attributes.json", 1);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__);
+
+
+/**
+ * Used to modify the block’s edit component. It receives the original block BlockEdit component and returns a new wrapped component.
+ *
+ * @link https://developer.wordpress.org/block-editor/developers/filters/block-filters/#editor-blockedit
+ * @note This demo is based on modified version of Zac Gordons Advanced Gutenberg course.
+ */
+
+/**
+ * Internal dependencies
+ */
+
+var _wp = wp,
+    InspectorControls = _wp.blockEditor.InspectorControls,
+    _wp$components = _wp.components,
+    PanelBody = _wp$components.PanelBody,
+    ToggleControl = _wp$components.ToggleControl,
+    createHigherOrderComponent = _wp.compose.createHigherOrderComponent,
+    Fragment = _wp.element.Fragment,
+    __ = _wp.i18n.__;
+var imgId = 422;
+/**
+ * WordPress dependencies
+ */
+
+ // GET
+// apiFetch( { path: '/wp/v2/media/' } ).then( posts => {
+// 	console.log( 'posts', posts );
+// } );
+// POST
+
+var fetchImgMetaData = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
+  path: "/wp/v2/media/".concat(imgId),
+  method: 'POST' // data: { title: 'New Post Title' },
+
+}).then(function (res) {
+  var getImgMetaData = res.media_details.image_meta;
+  return getImgMetaData;
+}); // const promise1 = new Promise( function( resolve, reject ) {
+// 	resolve('Success!');
+// });
+
+var ExifData = function ExifData() {
+  var aperture = fetchImgMetaData.aperture;
+  console.log(fetchImgMetaData);
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("ul", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("li", null, fetchImgMetaData.aperture));
+};
+/**
+ * Insert new attributes into block.
+ *
+ * @param {Object} settings block settings.
+ * @param {string} name block name.
+ * @return {Object} settings with updated attributes.
+ */
+
+
+var insertNewImgAttributes = function insertNewImgAttributes(settings, name) {
+  if ('core/image' !== name) {
+    return settings;
+  } // Insert new attributes.
+
+
+  settings.attributes = _attributes_json__WEBPACK_IMPORTED_MODULE_1__;
+  return settings;
+};
+
+var withInspectorControls = createHigherOrderComponent(function (BlockEdit) {
+  return function (props) {
+    var exifDataToggle = props.attributes.exifDataToggle,
+        setAttributes = props.setAttributes;
+    var insertClassName = exifDataToggle ? 'exif-data-enabled' : '';
+
+    var onToggleChange = function onToggleChange(newValue) {
+      setAttributes({
+        exifDataToggle: newValue
+      });
+    };
+
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(Fragment, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: insertClassName
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(BlockEdit, props), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(ExifData, null)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PanelBody, {
+      title: __('Enable Exif Data')
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(ToggleControl, {
+      label: __('Display exif data from image file.'),
+      checked: exifDataToggle,
+      onChange: onToggleChange
+    }))));
+  };
+}, 'withInspectorControl');
+/**
+ * Modify the block save function.
+ *
+ * @param {Object} el
+ * @param {Object} block data.
+ * @param {Object} attributes from block.
+ * @return {Object} updated element object.
+ */
+
+var modifySavedElement = function modifySavedElement(el, block, attributes) {
+  var exifDataToggle = attributes.exifDataToggle; // Return early if not image block or if exifData is false.
+
+  if (!'core/image' === block.name || exifDataToggle === false) {
+    return el;
+  }
+
+  return el.props.className = exifDataToggle ? 'expecto-patronum' : '';
+}; // Set new attributes.
+
+
+wp.hooks.addFilter('blocks.registerBlockType', 'gfd/add-code-attributes', insertNewImgAttributes); // Insert editor control.
+
+wp.hooks.addFilter('editor.BlockEdit', 'core/code', withInspectorControls); // Modify the saved value.
+
+wp.hooks.addFilter('blocks.getSaveElement', 'gfd/modify-code-save-settings', modifySavedElement);
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -95,98 +239,19 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _test_block__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test-block */ "./src/test-block/index.js");
-// import './block-contrast-analyzer';
+/* harmony import */ var _exif_data_block__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./exif-data-block */ "./src/exif-data-block/index.js");
 
 
 /***/ }),
 
-/***/ "./src/test-block/edit.js":
-/*!********************************!*\
-  !*** ./src/test-block/edit.js ***!
-  \********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "@wordpress/api-fetch":
+/*!*******************************************!*\
+  !*** external {"this":["wp","apiFetch"]} ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var Edit = function Edit(props) {
-  var content = props.attributes.content,
-      className = props.className;
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: className
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", null, content));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Edit);
-
-/***/ }),
-
-/***/ "./src/test-block/index.js":
-/*!*********************************!*\
-  !*** ./src/test-block/index.js ***!
-  \*********************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit */ "./src/test-block/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./save */ "./src/test-block/save.js");
-/**
- * Internal dependencies.
- */
-
-
-/**
- * WordPress Dependencies.
- */
-
-var _wp = wp,
-    registerBlockType = _wp.blocks.registerBlockType,
-    __ = _wp.i18n.__;
-registerBlockType('ded/test-block', {
-  title: __('Test Block'),
-  description: __('Example block to verify plugin works.'),
-  category: __('widgets'),
-  attributes: {
-    content: {
-      type: 'string',
-      default: 'test'
-    }
-  },
-  edit: _edit__WEBPACK_IMPORTED_MODULE_0__["default"],
-  save: _save__WEBPACK_IMPORTED_MODULE_1__["default"]
-});
-
-/***/ }),
-
-/***/ "./src/test-block/save.js":
-/*!********************************!*\
-  !*** ./src/test-block/save.js ***!
-  \********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var Save = function Save(props) {
-  var content = props.attributes.content,
-      className = props.className;
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: className
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", null, content));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Save);
+(function() { module.exports = this["wp"]["apiFetch"]; }());
 
 /***/ }),
 
