@@ -1,14 +1,7 @@
 /**
- * Used to modify the block’s edit component. It receives the original block BlockEdit component and returns a new wrapped component.
- *
- * @link https://developer.wordpress.org/block-editor/developers/filters/block-filters/#editor-blockedit
- * @note This demo is based on modified version of Zac Gordons Advanced Gutenberg course.
- */
-
-/**
  * Internal dependencies
  */
-import filterAttributes from './attributes.json';
+import ExifData from './exif-data';
 
 const {
 	blockEditor: {
@@ -82,8 +75,23 @@ const insertNewImgAttributes = ( settings, name ) => {
 		return settings;
 	}
 
-	// Insert new attributes.
-	settings.attributes = filterAttributes;
+	const {
+		attributes,
+	} = settings;
+
+	// Update attributes.
+	settings.attributes = {
+		...attributes, // copy original attributes.
+		// ...exifAttributes, // copy new attributes.
+		exifDataToggle: {
+			type: 'boolean',
+			default: false,
+		},
+		exifData: {
+			type: 'object',
+			default: {},
+		}
+	};
 
 	return settings;
 };
@@ -93,6 +101,8 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 		const {
 			attributes: {
 				exifDataToggle,
+				exifData,
+				id,
 			},
 			setAttributes,
 		} = props;
