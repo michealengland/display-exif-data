@@ -252,17 +252,29 @@ var ExifData = function ExifData(_ref) {
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(false),
       _useState4 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState3, 2),
       loadError = _useState4[0],
-      setLoadError = _useState4[1]; // If imageMetaData is empty OR
+      setLoadError = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(id),
+      _useState6 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState5, 2),
+      mediaId = _useState6[0],
+      setMediaId = _useState6[1]; // fetch if imageMetaData is empty.
+  // fetch if id has changed.
 
 
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(imageMetaData) || exifData !== imageMetaData) {
+  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(imageMetaData) || id !== mediaId) {
+    // Update mediaID state on ID change.
+    if (id !== mediaId) {
+      setMediaId(id);
+    } // Run fetch on current ID.
+
+
     var promise = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
       path: "/wp/v2/media/".concat(id),
       method: 'GET'
     }); // On success update image metadata state with object.
 
     var success = function success(response) {
-      if (!Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(imageMetaData)) {
+      if (!Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(imageMetaData) && id === mediaId) {
         return;
       }
 
@@ -373,8 +385,6 @@ var insertNewImgAttributes = function insertNewImgAttributes(settings, name) {
   var attributes = settings.attributes; // Update attributes.
 
   settings.attributes = _objectSpread({}, attributes, {
-    // copy original attributes.
-    // ...exifAttributes, // copy new attributes.
     exifDataToggle: {
       type: 'boolean',
       default: false
@@ -400,22 +410,13 @@ var withInspectorControls = createHigherOrderComponent(function (BlockEdit) {
       setAttributes({
         exifDataToggle: newValue
       });
-    }; // Update exifData att.
-
-
-    var updateExifData = function updateExifData(newValue) {
-      console.log('onChange', newValue);
-      setAttributes({
-        exifData: newValue
-      });
     };
 
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(Fragment, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
       className: insertClassName
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(BlockEdit, props), exifDataToggle && id ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_exif_data__WEBPACK_IMPORTED_MODULE_2__["default"], {
       id: id,
-      exifData: exifData,
-      onChange: updateExifData
+      exifData: exifData
     }) : ''), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(PanelBody, {
       title: __('Enable Exif Data')
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(ToggleControl, {
@@ -424,32 +425,11 @@ var withInspectorControls = createHigherOrderComponent(function (BlockEdit) {
       onChange: onToggleChange
     }))));
   };
-}, 'withInspectorControl');
-/**
- * Modify the block save function.
- *
- * @param {Object} el
- * @param {Object} block data.
- * @param {Object} attributes from block.
- * @return {Object} updated element object.
- */
-
-var modifySavedElement = function modifySavedElement(el, block, attributes) {
-  var exifDataToggle = attributes.exifDataToggle; // Return early if not image block or if exifData is false.
-
-  if ('core/image' === block.className) {
-    return el.props.className = exifDataToggle ? 'expecto-patronum' : '';
-  } else {
-    return el;
-  }
-}; // Set new attributes.
-
+}, 'withInspectorControl'); // Set new attributes.
 
 wp.hooks.addFilter('blocks.registerBlockType', 'core/image', insertNewImgAttributes); // Insert editor control.
 
-wp.hooks.addFilter('editor.BlockEdit', 'core/image', withInspectorControls); // Modify the saved value.
-
-wp.hooks.addFilter('blocks.getSaveElement', 'core/image', modifySavedElement);
+wp.hooks.addFilter('editor.BlockEdit', 'core/image', withInspectorControls);
 
 /***/ }),
 
