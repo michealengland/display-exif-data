@@ -14,9 +14,18 @@ const ExifData = ( { exifData, id } ) => {
 	// Setup state.
 	const [imageMetaData, setImageMetaData] = useState( {} );
 	const [loadError, setLoadError] = useState(false);
+	const [mediaId, setMediaId] = useState( id );
 
-	// If imageMetaData is empty OR
-	if ( isEmpty( imageMetaData ) || exifData !== imageMetaData ) {
+	// fetch if imageMetaData is empty.
+	// fetch if id has changed.
+	if ( isEmpty( imageMetaData ) || id !== mediaId ) {
+
+		// Update mediaID state on ID change.
+		if ( id !== mediaId ) {
+			setMediaId( id );
+		}
+
+		// Run fetch on current ID.
 		const promise = apiFetch( {
 			path: `/wp/v2/media/${ id }`,
 			method: 'GET',
@@ -24,7 +33,7 @@ const ExifData = ( { exifData, id } ) => {
 
 		// On success update image metadata state with object.
 		const success = ( response ) => {
-			if ( ! isEmpty( imageMetaData ) ) {
+			if ( ! isEmpty( imageMetaData ) && id === mediaId ) {
 				return;
 			}
 
