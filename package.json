@@ -22,6 +22,14 @@
   },
   "homepage": "https://github.com/michealengland/theme-contrast-analyzer#readme",
   "devDependencies": {
-    "@wordpress/scripts": "6.2.0"
+    "@wordpress/scripts": "6.2.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.4.2",
+    "ignore-emit-webpack-plugin": "^2.0.2",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.13.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "sass-loader": "^8.0.2"
   }
 }
