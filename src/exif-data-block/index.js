@@ -40,8 +40,7 @@ const insertNewImgAttributes = ( settings, name ) => {
 
 	// Update attributes.
 	settings.attributes = {
-		...attributes, // copy original attributes.
-		// ...exifAttributes, // copy new attributes.
+		...attributes,
 		exifDataToggle: {
 			type: 'boolean',
 			default: false,
@@ -72,13 +71,6 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 			setAttributes( { exifDataToggle: newValue } );
 		};
 
-		// Update exifData att.
-		const updateExifData = ( newValue ) => {
-			console.log( 'onChange', newValue );
-
-			setAttributes( { exifData: newValue } );
-		};
-
 		return (
 			<Fragment>
 				<div className={ insertClassName }>
@@ -87,7 +79,6 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 					<ExifData
 						id={ id }
 						exifData={ exifData }
-						onChange={ updateExifData }
 					/>
 					: '' }
 				</div>
@@ -107,27 +98,6 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 	};
 }, 'withInspectorControl' );
 
-/**
- * Modify the block save function.
- *
- * @param {Object} el
- * @param {Object} block data.
- * @param {Object} attributes from block.
- * @return {Object} updated element object.
- */
-const modifySavedElement = ( el, block, attributes ) => {
-	const {
-		exifDataToggle,
-	} = attributes;
-
-	// Return early if not image block or if exifData is false.
-	if ( 'core/image' === block.className ) {
-		return el.props.className = exifDataToggle ? 'expecto-patronum' : '';
-	} else {
-		return el;
-	}
-};
-
 // Set new attributes.
 wp.hooks.addFilter(
 	'blocks.registerBlockType',
@@ -140,11 +110,4 @@ wp.hooks.addFilter(
 	'editor.BlockEdit',
 	'core/image',
 	withInspectorControls
-);
-
-// Modify the saved value.
-wp.hooks.addFilter(
-	'blocks.getSaveElement',
-	'core/image',
-	modifySavedElement
 );
