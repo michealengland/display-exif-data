@@ -241,13 +241,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var ExifData = function ExifData(_ref) {
   var exifData = _ref.exifData,
-      id = _ref.id,
-      onChange = _ref.onChange;
-  console.log({
-    id: id,
-    exifData: exifData
-  }); // Setup state.
+      id = _ref.id;
 
+  // Setup state.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])({}),
       _useState2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState, 2),
       imageMetaData = _useState2[0],
@@ -317,14 +313,10 @@ __webpack_require__.r(__webpack_exports__);
 var ExifFields = function ExifFields(_ref) {
   var exifData = _ref.exifData,
       allowedKeys = _ref.allowedKeys;
-  console.log({
-    exifData: exifData,
-    allowedKeys: allowedKeys
-  });
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("ul", null, allowedKeys.map(function (key) {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("li", {
       key: key
-    }, "".concat(key, " ").concat(exifData[key].toString()));
+    }, "".concat(key, ": ").concat(exifData[key].toString()));
   }));
 };
 
@@ -412,6 +404,7 @@ var withInspectorControls = createHigherOrderComponent(function (BlockEdit) {
 
 
     var updateExifData = function updateExifData(newValue) {
+      console.log('onChange', newValue);
       setAttributes({
         exifData: newValue
       });
