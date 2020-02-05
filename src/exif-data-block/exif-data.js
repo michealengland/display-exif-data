@@ -57,7 +57,6 @@ const ExifData = ( { exifData, id } ) => {
 			</ul>
 		);
 	} else {
-
 		return (
 			<ExifFields
 				exifData={ imageMetaData.media_details.image_meta }

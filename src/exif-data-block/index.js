@@ -22,47 +22,6 @@ const {
 	},
 } = wp;
 
-const imgId = 422;
-
-/**
- * WordPress dependencies
- */
-import apiFetch from '@wordpress/api-fetch';
-
-// GET
-// apiFetch( { path: '/wp/v2/media/' } ).then( posts => {
-// 	console.log( 'posts', posts );
-// } );
-
-// POST
-const fetchImgMetaData = apiFetch( {
-	path: `/wp/v2/media/${ imgId }`,
-	method: 'POST',
-	// data: { title: 'New Post Title' },
-} ).then( ( res ) => {
-	const getImgMetaData = res.media_details.image_meta;
-
-	return getImgMetaData;
-} );
-
-// const promise1 = new Promise( function( resolve, reject ) {
-// 	resolve('Success!');
-// });
-
-const ExifData = () => {
-	const {
-		aperture,
-	} = fetchImgMetaData;
-
-	console.log( fetchImgMetaData );
-
-	return (
-		<ul>
-			<li>{ fetchImgMetaData.aperture }</li>
-		</ul>
-	);
-};
-
 /**
  * Insert new attributes into block.
  *
@@ -113,11 +72,24 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 			setAttributes( { exifDataToggle: newValue } );
 		};
 
+		// Update exifData att.
+		const updateExifData = ( newValue ) => {
+			console.log( 'onChange', newValue );
+
+			setAttributes( { exifData: newValue } );
+		};
+
 		return (
 			<Fragment>
 				<div className={ insertClassName }>
 					<BlockEdit { ...props } />
-					<ExifData />
+					{ exifDataToggle && id ?
+					<ExifData
+						id={ id }
+						exifData={ exifData }
+						onChange={ updateExifData }
+					/>
+					: '' }
 				</div>
 				<InspectorControls>
 					<PanelBody
@@ -149,30 +121,30 @@ const modifySavedElement = ( el, block, attributes ) => {
 	} = attributes;
 
 	// Return early if not image block or if exifData is false.
-	if ( ! 'core/image' === block.name || exifDataToggle === false ) {
+	if ( 'core/image' === block.className ) {
+		return el.props.className = exifDataToggle ? 'expecto-patronum' : '';
+	} else {
 		return el;
 	}
-
-	return el.props.className = exifDataToggle ? 'expecto-patronum' : '';
 };
 
 // Set new attributes.
 wp.hooks.addFilter(
 	'blocks.registerBlockType',
-	'gfd/add-code-attributes',
+	'core/image',
 	insertNewImgAttributes
 );
 
 // Insert editor control.
 wp.hooks.addFilter(
 	'editor.BlockEdit',
-	'core/code',
+	'core/image',
 	withInspectorControls
 );
 
 // Modify the saved value.
 wp.hooks.addFilter(
 	'blocks.getSaveElement',
-	'gfd/modify-code-save-settings',
+	'core/image',
 	modifySavedElement
 );
