@@ -10,7 +10,15 @@ import { isEmpty } from 'lodash';
 import apiFetch from '@wordpress/api-fetch';
 import ExifFields from  './exif-fields';
 
-const ExifData = ( { exifData, id } ) => {
+const ExifData = ( props ) => {
+	const {
+		attributes: {
+			id,
+			exifData,
+		},
+		setAttributes,
+	} = props;
+
 	// Setup state.
 	const [imageMetaData, setImageMetaData] = useState( {} );
 	const [loadError, setLoadError] = useState(false);
@@ -66,6 +74,10 @@ const ExifData = ( { exifData, id } ) => {
 			</ul>
 		);
 	} else {
+
+		// Set exifData object.
+		setAttributes( { exifData: imageMetaData.media_details.image_meta } );
+
 		return (
 			<ExifFields
 				exifData={ imageMetaData.media_details.image_meta }
