@@ -2,6 +2,10 @@
  * Internal dependencies
  */
 import ExifData from './exif-data';
+import ExifFields from  './exif-fields';
+
+import './style.scss';
+import './editor.scss';
 
 const {
 	blockEditor: {
@@ -76,10 +80,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 				<div className={ insertClassName }>
 					<BlockEdit { ...props } />
 					{ exifDataToggle && id ?
-					<ExifData
-						id={ id }
-						exifData={ exifData }
-					/>
+					<ExifData { ...props } />
 					: '' }
 				</div>
 				<InspectorControls>
@@ -98,6 +99,36 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 	};
 }, 'withInspectorControl' );
 
+/**
+ * Modify the block save function.
+ *
+ * @param {Object} element block component.
+ * @param {Object} block data.
+ * @param {Object} attributes from block.
+ * @return {Object} updated element object.
+ */
+const modifySavedElement = ( element, block, attributes ) => {
+	const {
+		exifData,
+		exifDataToggle
+	} = attributes;
+
+	// Return early if not image block or if exifData is false.
+	if ( 'core/image' === block.name && exifDataToggle ) {
+		return (
+			<div className="exif-data-enabled">
+				{ element }
+				<ExifFields
+					exifData={ exifData }
+					allowedKeys={ Object.keys( exifData ) }
+				/>
+			</div>
+		);
+	} else {
+		return element;
+	}
+};
+
 // Set new attributes.
 wp.hooks.addFilter(
 	'blocks.registerBlockType',
@@ -110,4 +141,11 @@ wp.hooks.addFilter(
 	'editor.BlockEdit',
 	'core/image',
 	withInspectorControls
+);
+
+// Modify the saved value.
+wp.hooks.addFilter(
+	'blocks.getSaveElement',
+	'core/image',
+	modifySavedElement
 );
