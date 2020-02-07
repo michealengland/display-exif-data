@@ -12,7 +12,16 @@ First install this package as a plugin. Next, use the image block and enable the
 ## Build Details
 https://developer.wordpress.org/block-editor/tutorials/javascript/js-build-setup/
 
+### Scripts
+- Use `npm run start` for compiling files on save during development.
+- Use `npm run build` for compiling production ready files.
+
 ## Changelog
 
 ### 0.0.1
-- Initial block setup.
+- Added Exif Data features to core image block.
+- Added SCSS compiler
+
+## Special Thanks To...
+- @salcode for all great
+- [WebDevStudios](https://webdevstudios.com/)

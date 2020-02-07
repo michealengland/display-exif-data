@@ -204,6 +204,17 @@ module.exports = _slicedToArray;
 
 /***/ }),
 
+/***/ "./src/exif-data-block/editor.scss":
+/*!*****************************************!*\
+  !*** ./src/exif-data-block/editor.scss ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "./src/exif-data-block/exif-data.js":
 /*!******************************************!*\
   !*** ./src/exif-data-block/exif-data.js ***!
@@ -239,11 +250,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var ExifData = function ExifData(_ref) {
-  var exifData = _ref.exifData,
-      id = _ref.id;
+var ExifData = function ExifData(props) {
+  var _props$attributes = props.attributes,
+      id = _props$attributes.id,
+      exifData = _props$attributes.exifData,
+      setAttributes = props.setAttributes; // Setup state.
 
-  // Setup state.
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])({}),
       _useState2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_useState, 2),
       imageMetaData = _useState2[0],
@@ -298,6 +310,10 @@ var ExifData = function ExifData(_ref) {
   } else if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(imageMetaData)) {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("ul", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("li", null, 'Loading Metadata...'));
   } else {
+    // Set exifData object.
+    setAttributes({
+      exifData: imageMetaData.media_details.image_meta
+    });
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_exif_fields__WEBPACK_IMPORTED_MODULE_5__["default"], {
       exifData: imageMetaData.media_details.image_meta,
       allowedKeys: Object.keys(imageMetaData.media_details.image_meta)
@@ -350,6 +366,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _exif_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./exif-data */ "./src/exif-data-block/exif-data.js");
+/* harmony import */ var _exif_fields__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./exif-fields */ "./src/exif-data-block/exif-fields.js");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./style.scss */ "./src/exif-data-block/style.scss");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_style_scss__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./src/exif-data-block/editor.scss");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_editor_scss__WEBPACK_IMPORTED_MODULE_5__);
 
 
 
@@ -360,6 +381,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 /**
  * Internal dependencies
  */
+
+
+
 
 var _wp = wp,
     InspectorControls = _wp.blockEditor.InspectorControls,
@@ -414,10 +438,7 @@ var withInspectorControls = createHigherOrderComponent(function (BlockEdit) {
 
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(Fragment, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
       className: insertClassName
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(BlockEdit, props), exifDataToggle && id ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_exif_data__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      id: id,
-      exifData: exifData
-    }) : ''), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(PanelBody, {
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(BlockEdit, props), exifDataToggle && id ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_exif_data__WEBPACK_IMPORTED_MODULE_2__["default"], props) : ''), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(PanelBody, {
       title: __('Enable Exif Data')
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(ToggleControl, {
       label: __('Display exif data from image file.'),
@@ -425,11 +446,49 @@ var withInspectorControls = createHigherOrderComponent(function (BlockEdit) {
       onChange: onToggleChange
     }))));
   };
-}, 'withInspectorControl'); // Set new attributes.
+}, 'withInspectorControl');
+/**
+ * Modify the block save function.
+ *
+ * @param {Object} element block component.
+ * @param {Object} block data.
+ * @param {Object} attributes from block.
+ * @return {Object} updated element object.
+ */
+
+var modifySavedElement = function modifySavedElement(element, block, attributes) {
+  var exifData = attributes.exifData,
+      exifDataToggle = attributes.exifDataToggle; // Return early if not image block or if exifData is false.
+
+  if ('core/image' === block.name && exifDataToggle) {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
+      className: "exif-data-enabled"
+    }, element, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_exif_fields__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      exifData: exifData,
+      allowedKeys: Object.keys(exifData)
+    }));
+  } else {
+    return element;
+  }
+}; // Set new attributes.
+
 
 wp.hooks.addFilter('blocks.registerBlockType', 'core/image', insertNewImgAttributes); // Insert editor control.
 
-wp.hooks.addFilter('editor.BlockEdit', 'core/image', withInspectorControls);
+wp.hooks.addFilter('editor.BlockEdit', 'core/image', withInspectorControls); // Modify the saved value.
+
+wp.hooks.addFilter('blocks.getSaveElement', 'core/image', modifySavedElement);
+
+/***/ }),
+
+/***/ "./src/exif-data-block/style.scss":
+/*!****************************************!*\
+  !*** ./src/exif-data-block/style.scss ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
