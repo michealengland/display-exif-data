@@ -23,5 +23,5 @@ https://developer.wordpress.org/block-editor/tutorials/javascript/js-build-setup
 - Added SCSS compiler
 
 ## Special Thanks To...
-- @salcode for all great
-- [WebDevStudios](https://webdevstudios.com/)
+- @salcode and @gregrickaby for contributions and collaboration.
+- [WebDevStudios](https://webdevstudios.com/) for donating hours during [#5FTF](https://twitter.com/search?q=%235FTF&src=typed_query).
