@@ -73,7 +73,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 		};
 
 		return (
-			<div>
+			<Fragment>
 				<div className={ insertClassName }>
 					<BlockEdit { ...props } />
 					{ exifDataToggle && id ? <ExifData { ...props } /> : '' }
@@ -89,7 +89,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 						/>
 					</PanelBody>
 				</InspectorControls>
-			</div>
+			</Fragment>
 		);
 	};
 }, 'withInspectorControl' );
