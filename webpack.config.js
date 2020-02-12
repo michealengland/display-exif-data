@@ -1,72 +1,62 @@
 const defaultConfig = require("@wordpress/scripts/config/webpack.config");
+const path = require('path');
 
-const path = require( 'path' );
-const postcssPresetEnv = require( 'postcss-preset-env' );
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const devMode = process.env.NODE_ENV !== 'production';
 const IgnoreEmitPlugin = require( 'ignore-emit-webpack-plugin' );
-
-const production = process.env.NODE_ENV === '';
-
-console.log( defaultConfig );
 
 module.exports = {
     ...defaultConfig,
+    entry: {
+        ...defaultConfig.entry,
+        css: path.resolve( process.cwd(), 'src', 'css.js' ),
+    },
+    optimization: {
+        namedChunks: true,
+        namedModules: true,
+        splitChunks: {
+            cacheGroups: {
+                styles: {
+                    name: 'style',
+                    test: /style\.(sa|sc|c)ss$/,
+                    chunks: 'all',
+                    enforce: true,
+                },
+                editor: {
+                    name: 'editor',
+                    test: /editor\.(sa|sc|c)ss$/,
+                    chunks: 'all',
+                    enforce: true,
+                },
+            },
+        },
+    },
     module: {
         ...defaultConfig.module,
         rules: [
             ...defaultConfig.module.rules,
             {
-                test: /\.(sa|sc|c)ss$/,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
+              test: /\.css$/,
+              use: [
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
                         hmr: process.env.NODE_ENV === 'development',
-                        },
                     },
-                    'css-loader',
-                    'postcss-loader',
-                    'sass-loader',
-                ],
+                },
+                { loader: 'css-loader', options: { importLoaders: 1 } },
+                'postcss-loader'
+              ]
             },
         ],
     },
-    // optimization: {
-    //     ...defaultConfig,
-    //     namedChunks: true,
-    //     namedModules: true,
-    //     noEmitOnErrors: true,
-    //     splitChunks: {
-    //         cacheGroups: {
-    //             styles: {
-    //                 name: 'style',
-    //                 test: /style\.scss$/,
-    //                 chunks: 'all',
-    //                 enforce: true,
-    //             },
-    //             editor: {
-    //                 name: 'editor',
-    //                 test: /editor\.scss$/,
-    //                 chunks: 'all',
-    //                 enforce: true,
-    //             },
-    //         },
-    //     },
-    // },
     plugins: [
         ...defaultConfig.plugins,
-        new CleanWebpackPlugin({
-            // cleanStaleWebpackAssets: false,
-            // verbose: true,
-        }),
+        new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            // Options similar to the same options in webpackOptions.output
-            // both options are optional
-            filename: devMode ? '[name].css' : '[name].[hash].css',
-            chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
+             filename: '[name].css',
+             chunkFilename: '[id].css',
         }),
-        new IgnoreEmitPlugin( [ 'editor.js', 'style.js' ] ),
+        new IgnoreEmitPlugin( [ 'index.asset.php', 'css.asset.php', 'css.js', 'css.js.map', 'style.js', 'editor.js' ] ),
     ],
 };
