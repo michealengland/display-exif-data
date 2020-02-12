@@ -1,6 +1,6 @@
 {
   "name": "display-exif-data",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tooling for Display Exif Data plugin.",
   "main": "src/index.js",
   "scripts": {
@@ -22,6 +22,16 @@
   },
   "homepage": "https://github.com/michealengland/theme-contrast-analyzer#readme",
   "devDependencies": {
-    "@wordpress/scripts": "6.2.0"
-  }
+    "@wordpress/eslint-plugin": "^3.4.1",
+    "@wordpress/scripts": "^7.1.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.4.2",
+    "ignore-emit-webpack-plugin": "^2.0.2",
+    "mini-css-extract-plugin": "^0.9.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "precss": "^4.0.0",
+    "style-loader": "^1.1.3"
+  },
+  "dependencies": {}
 }
