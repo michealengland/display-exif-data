@@ -204,17 +204,6 @@ module.exports = _slicedToArray;
 
 /***/ }),
 
-/***/ "./src/exif-data-block/editor.scss":
-/*!*****************************************!*\
-  !*** ./src/exif-data-block/editor.scss ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "./src/exif-data-block/exif-data.js":
 /*!******************************************!*\
   !*** ./src/exif-data-block/exif-data.js ***!
@@ -367,10 +356,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _exif_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./exif-data */ "./src/exif-data-block/exif-data.js");
 /* harmony import */ var _exif_fields__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./exif-fields */ "./src/exif-data-block/exif-fields.js");
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./style.scss */ "./src/exif-data-block/style.scss");
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_style_scss__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./src/exif-data-block/editor.scss");
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_editor_scss__WEBPACK_IMPORTED_MODULE_5__);
 
 
 
@@ -381,8 +366,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 /**
  * Internal dependencies
  */
-
-
 
 
 var _wp = wp,
@@ -436,7 +419,7 @@ var withInspectorControls = createHigherOrderComponent(function (BlockEdit) {
       });
     };
 
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(Fragment, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
       className: insertClassName
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(BlockEdit, props), exifDataToggle && id ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_exif_data__WEBPACK_IMPORTED_MODULE_2__["default"], props) : ''), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(PanelBody, {
       title: __('Enable Exif Data')
@@ -478,17 +461,6 @@ wp.hooks.addFilter('blocks.registerBlockType', 'core/image', insertNewImgAttribu
 wp.hooks.addFilter('editor.BlockEdit', 'core/image', withInspectorControls); // Modify the saved value.
 
 wp.hooks.addFilter('blocks.getSaveElement', 'core/image', modifySavedElement);
-
-/***/ }),
-
-/***/ "./src/exif-data-block/style.scss":
-/*!****************************************!*\
-  !*** ./src/exif-data-block/style.scss ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
