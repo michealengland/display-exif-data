@@ -4,9 +4,6 @@
 import ExifData from './exif-data';
 import ExifFields from  './exif-fields';
 
-import './style.scss';
-import './editor.scss';
-
 const {
 	blockEditor: {
 		InspectorControls,
@@ -76,12 +73,10 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 		};
 
 		return (
-			<Fragment>
+			<div>
 				<div className={ insertClassName }>
 					<BlockEdit { ...props } />
-					{ exifDataToggle && id ?
-					<ExifData { ...props } />
-					: '' }
+					{ exifDataToggle && id ? <ExifData { ...props } /> : '' }
 				</div>
 				<InspectorControls>
 					<PanelBody
@@ -94,7 +89,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 						/>
 					</PanelBody>
 				</InspectorControls>
-			</Fragment>
+			</div>
 		);
 	};
 }, 'withInspectorControl' );
