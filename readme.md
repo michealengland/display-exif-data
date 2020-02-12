@@ -25,6 +25,7 @@ https://developer.wordpress.org/block-editor/tutorials/javascript/js-build-setup
 - Created .gitignore and stopped tracking build directories
 - Updated plugin readme and added contributor details
 - Updated WP Scripts to 7.1.0
+- Added github action with nodejs.yml
 
 ### 0.0.1
 - Added Exif Data features to core image block
