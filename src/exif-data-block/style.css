@@ -2,6 +2,16 @@
 	font-size: 16px;
 
 	ul {
-		margin: 0;
+		list-style-position: inside;
+
+		li {
+			list-style: none;
+
+			svg {
+				margin-right: 6px;
+				position: relative;
+				top: 6px;
+			}
+		}
 	}
 }
