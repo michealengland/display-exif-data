@@ -4,7 +4,6 @@ const ExifFields = ( { exifData, allowedKeys } ) => {
 	return (
 		<ul>
 			{ allowedKeys.map( ( key ) => {
-				console.log( JSON.stringify( key ) );
 				return (
 					<li key={ key }>
 						<ExifIcon icon={ key } />
