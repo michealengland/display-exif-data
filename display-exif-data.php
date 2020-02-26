@@ -3,7 +3,7 @@
  * Plugin Name:       Display Exif Data
  * Plugin URI:        https://github.com/michealengland/display-exif-data
  * Description:       Display exif data hidden in images.
- * Version:           0.0.2
+ * Version:           0.0.3
  * Author:            Mike England
  * Author URI:        https://twitter.com/mikelikethebike
  * License:           GPLv3

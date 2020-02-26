@@ -18,6 +18,17 @@ https://developer.wordpress.org/block-editor/tutorials/javascript/js-build-setup
 
 ## Changelog
 
+### 0.0.3
+- Fix editor.css enqueue bug
+- Improve styles
+- Update components
+- Add propTypes and defaultProps to all components
+- Setup material icon library and ExifIcon component for displaying SVG icons
+- Improve component logic
+- Fix filter bug that caused filter to render on all blocks
+- Refactor settings attribute filter
+- Add new display icon settings toggle
+
 ### 0.0.2
 - Created basic working version of Exif Data features on core/image
 - Swapped SCSS for PostCSS
