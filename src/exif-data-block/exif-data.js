@@ -1,8 +1,9 @@
 /**
  * Internal dependencies
  */
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { isEmpty } from 'lodash';
+import PropTypes from 'prop-types';
 
 /**
  * WordPress dependencies
@@ -13,8 +14,8 @@ import ExifFields from  './exif-fields';
 const ExifData = ( props ) => {
 	const {
 		attributes: {
+			displayIconsToggle,
 			id,
-			exifData,
 		},
 		setAttributes,
 	} = props;
@@ -80,6 +81,7 @@ const ExifData = ( props ) => {
 
 		return (
 			<ExifFields
+				displayIcon={ displayIconsToggle }
 				exifData={ imageMetaData.media_details.image_meta }
 				allowedKeys={ Object.keys( imageMetaData.media_details.image_meta ) }
 			/>
@@ -88,3 +90,14 @@ const ExifData = ( props ) => {
 };
 
 export default ExifData;
+
+ExifData.propTypes = {
+	attributes: {
+		displayIconsToggle: PropTypes.bool,
+		id: PropTypes.number.isRequired,
+	}
+};
+
+ExifData.defaultProps = {
+	displayIcon: false,
+};

@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 function ded_blocks_editor_scripts() {
 
 	$block_handler = '../build/index.js';
-	$editor_style_handler = '../build/style.css';
+	$editor_style_handler = '../build/editor.css';
 
 	if ( file_exists ( plugin_dir_path( __FILE__ ) . $blockPath ) ) {
 		// Enqueue editor JS.

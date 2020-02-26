@@ -1,10 +1,19 @@
-const ExifFields = ( { exifData, allowedKeys } ) => {
+/**
+ * External dependencies
+ */
+import PropTypes from 'prop-types';
 
+import ExifIcon from './material-icons';
+
+const ExifFields = ( { allowedKeys, displayIcon, exifData } ) => {
 	return (
 		<ul>
 			{ allowedKeys.map( ( key ) => {
 				return (
-					<li key={ key }>{ `${ key }: ${ exifData[key].toString() }` }</li>
+					<li key={ key }>
+						{  displayIcon ? <ExifIcon icon={ key } /> : '' }
+						{ `${ key }: ${ exifData[key].toString() }` }
+					</li>
 				);
 			} ) }
 		</ul>
@@ -12,3 +21,13 @@ const ExifFields = ( { exifData, allowedKeys } ) => {
 }
 
 export default ExifFields;
+
+ExifFields.propTypes = {
+	allowedKeys: PropTypes.array.isRequired,
+	displayIcon: PropTypes.bool,
+	exifData: PropTypes.object.isRequired,
+};
+
+ExifFields.defaultProps = {
+	displayIcon: false,
+};
