@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import ExifIcon from './material-icons';
 
-const ExifFields = ( { exifData, allowedKeys, displayIcon } ) => {
+const ExifFields = ( { allowedKeys, displayIcon, exifData } ) => {
 	return (
 		<ul>
 			{ allowedKeys.map( ( key ) => {
