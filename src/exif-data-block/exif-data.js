@@ -3,6 +3,7 @@
  */
 import { useState, useEffect } from 'react';
 import { isEmpty } from 'lodash';
+import PropTypes from 'prop-types';
 
 /**
  * WordPress dependencies
@@ -89,3 +90,14 @@ const ExifData = ( props ) => {
 };
 
 export default ExifData;
+
+ExifData.propTypes = {
+	attributes: {
+		displayIconsToggle: PropTypes.bool,
+		id: PropTypes.number.isRequired,
+	}
+};
+
+ExifData.defaultProps = {
+	displayIcon: false,
+};
