@@ -30,4 +30,4 @@ ExifFields.propTypes = {
 
 ExifFields.defaultProps = {
 	displayIcon: false,
-}
+};
