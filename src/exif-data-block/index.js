@@ -35,24 +35,23 @@ const insertNewImgAttributes = ( settings, name ) => {
 		return settings;
 	}
 
-	const {
-		attributes,
-	} = settings;
-
-	// Update attributes.
-	settings.attributes = {
-		...attributes,
-		exifDataToggle: {
-			type: 'boolean',
-			default: false,
-		},
-		exifData: {
-			type: 'object',
-			default: {},
+	// Return updated settings object.
+	return (
+		{
+			...settings,
+			attributes: {
+				...settings.attributes,
+				exifDataToggle: {
+					type: 'boolean',
+					default: false,
+				},
+				exifData: {
+					type: 'object',
+					default: {},
+				}
+			}
 		}
-	};
-
-	return settings;
+	);
 };
 
 const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
