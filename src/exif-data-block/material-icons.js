@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import PropTypes from 'prop-types';
+
+/**
  * WordPress dependencies
  */
 import { Icon } from '@wordpress/components';
@@ -22,7 +27,7 @@ const ExifIcon = ( props ) => {
 	const {
 		className,
 		icon,
-		size = 24,
+		size,
 	} = props;
 
 	let svgElement;
@@ -114,3 +119,14 @@ const ExifIcon = ( props ) => {
 }
 
 export default ExifIcon;
+
+ExifIcon.propTypes = {
+	className: PropTypes.string,
+	icon: PropTypes.number.isRequired,
+	size: PropTypes.number,
+};
+
+ExifIcon.defaultProps = {
+	className: '',
+	size: 24,
+};
