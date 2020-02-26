@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
