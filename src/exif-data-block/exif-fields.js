@@ -1,12 +1,12 @@
 import ExifIcon from './material-icons';
 
-const ExifFields = ( { exifData, allowedKeys } ) => {
+const ExifFields = ( { exifData, allowedKeys, displayIcon } ) => {
 	return (
 		<ul>
 			{ allowedKeys.map( ( key ) => {
 				return (
 					<li key={ key }>
-						<ExifIcon icon={ key } />
+						{  displayIcon ? <ExifIcon icon={ key } /> : '' }
 						{ `${ key }: ${ exifData[key].toString() }` }
 					</li>
 				);
