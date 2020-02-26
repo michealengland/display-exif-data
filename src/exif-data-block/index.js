@@ -57,6 +57,10 @@ const insertNewImgAttributes = ( settings, name ) => {
 
 const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
+		if ( 'core/image' !== props.name ) {
+			return <BlockEdit { ...props } />;
+		}
+
 		const {
 			attributes: {
 				exifDataToggle,
