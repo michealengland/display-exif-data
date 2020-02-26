@@ -56,6 +56,7 @@ const insertNewImgAttributes = ( settings, name ) => {
 
 const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
+		// return BlockEdit early if not core/image.
 		if ( 'core/image' !== props.name ) {
 			return <BlockEdit { ...props } />;
 		}
