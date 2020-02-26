@@ -1,8 +1,18 @@
 .exif-data-enabled {
-	background-color: #333;
 	font-size: 16px;
 }
 
 	.exif-data-enabled ul {
-		margin: 0;
+		list-style-position: inside;
 	}
+
+	.exif-data-enabled ul li {
+			list-style: none;
+		}
+
+	.exif-data-enabled ul li svg {
+				margin-right: 6px;
+				position: relative;
+				top: 6px;
+			}
+
