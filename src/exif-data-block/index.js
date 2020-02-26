@@ -45,6 +45,10 @@ const insertNewImgAttributes = ( settings, name ) => {
 					type: 'boolean',
 					default: false,
 				},
+				displayIconsToggle: {
+					type: 'boolean',
+					default: true,
+				},
 				exifData: {
 					type: 'object',
 					default: {},
@@ -63,6 +67,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 		const {
 			attributes: {
+				displayIconsToggle,
 				exifDataToggle,
 				id,
 			},
@@ -71,28 +76,37 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 		const insertClassName = exifDataToggle ? 'exif-data-enabled' : '';
 
-		const onToggleChange = ( newValue ) => {
+		const updateExifDataToggle = ( newValue ) => {
 			setAttributes( { exifDataToggle: newValue } );
 		};
 
+		const updateDisplayIconsToggle = ( newValue ) => {
+			setAttributes( { displayIconsToggle: newValue } );
+		};
+
 		return (
-			<Fragment>
+			<>
 				<div className={ insertClassName }>
 					<BlockEdit { ...props } />
 					{ exifDataToggle && id ? <ExifData { ...props } /> : '' }
 				</div>
 				<InspectorControls>
 					<PanelBody
-						title={ __( 'Enable Exif Data' ) }
+						title={ __( 'Exif Data Settings' ) }
 					>
 						<ToggleControl
 							label={ __( 'Display exif data from image file.' ) }
 							checked={ exifDataToggle }
-							onChange={ onToggleChange }
+							onChange={ updateExifDataToggle }
+						/>
+						<ToggleControl
+							label={ __( 'Display icons.' ) }
+							checked={ displayIconsToggle }
+							onChange={ updateDisplayIconsToggle }
 						/>
 					</PanelBody>
 				</InspectorControls>
-			</Fragment>
+			</>
 		);
 	};
 }, 'withInspectorControl' );
