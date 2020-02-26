@@ -15,9 +15,6 @@ const {
 	compose: {
 		createHigherOrderComponent,
 	},
-	element: {
-		Fragment,
-	},
 	i18n: {
 		__,
 	},
