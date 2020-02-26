@@ -13,8 +13,8 @@ import ExifFields from  './exif-fields';
 const ExifData = ( props ) => {
 	const {
 		attributes: {
+			displayIconsToggle,
 			id,
-			exifData,
 		},
 		setAttributes,
 	} = props;
@@ -80,6 +80,7 @@ const ExifData = ( props ) => {
 
 		return (
 			<ExifFields
+				displayIcon={ displayIconsToggle }
 				exifData={ imageMetaData.media_details.image_meta }
 				allowedKeys={ Object.keys( imageMetaData.media_details.image_meta ) }
 			/>
