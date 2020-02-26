@@ -1,3 +1,8 @@
+/**
+ * External dependencies
+ */
+import PropTypes from 'prop-types';
+
 import ExifIcon from './material-icons';
 
 const ExifFields = ( { exifData, allowedKeys, displayIcon } ) => {
@@ -16,3 +21,13 @@ const ExifFields = ( { exifData, allowedKeys, displayIcon } ) => {
 }
 
 export default ExifFields;
+
+ExifFields.propTypes = {
+	allowedKeys: PropTypes.array.isRequired,
+	displayIcon: PropTypes.bool,
+	exifData: PropTypes.object.isRequired,
+};
+
+ExifFields.defaultProps = {
+	displayIcon: false,
+}
