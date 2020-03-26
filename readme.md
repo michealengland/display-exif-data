@@ -9,6 +9,12 @@ First install this package as a plugin. Next, use the image block and enable the
 
 **Verify your image has exif data if you do not see any changes.**
 
+## Development
+1. Clone this plugin into `wp-content/plugins` directory.
+2. Run `composer install`.
+3. Run `npm install`.
+4. Activate the plugin.
+
 ## Build Details
 https://developer.wordpress.org/block-editor/tutorials/javascript/js-build-setup/
 
@@ -17,6 +23,13 @@ https://developer.wordpress.org/block-editor/tutorials/javascript/js-build-setup
 - Use `npm run build` for compiling production ready files.
 
 ## Changelog
+
+### 0.0.4
+- Update plugin structure to use WDS Block Starter
+- Add SCSS support
+- Add coding standards
+- Add auto enqueue of styles in `/src`
+- Add namespace to plugin
 
 ### 0.0.3
 - Fix editor.css enqueue bug
