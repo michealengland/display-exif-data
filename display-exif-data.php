@@ -90,5 +90,16 @@ function register_block() {
 			true
 		);
 	}
+
+	// Local plugin settings to be available
+	// as JS variable `dedOptions`.
+	wp_localize_script(
+		'ded-editor-script',
+		'dedOptions',
+		[ 'options' => get_option( 'ded_options' ) ]
+	);
 }
 add_action( 'init', __NAMESPACE__ . '\register_block' );
+
+// Enqueue files.
+include_once( plugin_dir_path( __FILE__ ) . '/inc/settings.php' );
