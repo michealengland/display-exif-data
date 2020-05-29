@@ -114,7 +114,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 									onChange={ updateDisplayIconsToggle }
 								/>
 								<ToggleControl
-									label={ __( 'Display empty fields.' ) }
+									label={ __( 'Hide empty fields.' ) }
 									checked={ displayEmptyFieldsToggle }
 									onChange={ updateDisplayEmptyFieldsToggle }
 								/>
