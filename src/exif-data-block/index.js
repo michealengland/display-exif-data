@@ -96,11 +96,14 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 							checked={ exifDataToggle }
 							onChange={ updateExifDataToggle }
 						/>
-						<ToggleControl
-							label={ __( 'Display icons.' ) }
-							checked={ displayIconsToggle }
-							onChange={ updateDisplayIconsToggle }
-						/>
+						{
+							true === exifDataToggle &&
+							<ToggleControl
+								label={ __( 'Display icons.' ) }
+								checked={ displayIconsToggle }
+								onChange={ updateDisplayIconsToggle }
+							/>
+						}
 					</PanelBody>
 				</InspectorControls>
 			</>
