@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 import ExifData from './exif-data';
-import ExifFields from  './exif-fields';
+import ExifFields from './exif-fields';
 
 const {
 	blockEditor: {
@@ -49,7 +49,11 @@ const insertNewImgAttributes = ( settings, name ) => {
 				exifData: {
 					type: 'object',
 					default: {},
-				}
+				},
+				displayEmptyFieldsToggle: {
+					type: 'boolean',
+					default: true,
+				},
 			}
 		}
 	);
@@ -64,6 +68,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 		const {
 			attributes: {
+				displayEmptyFieldsToggle,
 				displayIconsToggle,
 				exifDataToggle,
 				id,
@@ -79,6 +84,10 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 		const updateDisplayIconsToggle = ( newValue ) => {
 			setAttributes( { displayIconsToggle: newValue } );
+		};
+
+		const updateDisplayEmptyFieldsToggle = ( newValue ) => {
+			setAttributes( { displayEmptyFieldsToggle: newValue } );
 		};
 
 		return (
@@ -98,11 +107,18 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 						/>
 						{
 							true === exifDataToggle &&
-							<ToggleControl
-								label={ __( 'Display icons.' ) }
-								checked={ displayIconsToggle }
-								onChange={ updateDisplayIconsToggle }
-							/>
+							<>
+								<ToggleControl
+									label={ __( 'Display icons.' ) }
+									checked={ displayIconsToggle }
+									onChange={ updateDisplayIconsToggle }
+								/>
+								<ToggleControl
+									label={ __( 'Display empty fields.' ) }
+									checked={ displayEmptyFieldsToggle }
+									onChange={ updateDisplayEmptyFieldsToggle }
+								/>
+							</>
 						}
 					</PanelBody>
 				</InspectorControls>
@@ -121,8 +137,9 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
  */
 const modifySavedElement = ( element, block, attributes ) => {
 	const {
+		displayIconsToggle,
 		exifData,
-		exifDataToggle
+		exifDataToggle,
 	} = attributes;
 
 	// Return early if not image block or if exifData is false.
@@ -131,8 +148,9 @@ const modifySavedElement = ( element, block, attributes ) => {
 			<div className="exif-data-enabled">
 				{ element }
 				<ExifFields
-					exifData={ exifData }
 					allowedKeys={ Object.keys( exifData ) }
+					displayIcon={ displayIconsToggle }
+					exifData={ exifData }
 				/>
 			</div>
 		);
