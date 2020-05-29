@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
+import stripEmptyFields from '../utils/remove-empty-properties';
 
 /**
  * WordPress dependencies
@@ -14,6 +15,7 @@ import ExifFields from  './exif-fields';
 const ExifData = ( props ) => {
 	const {
 		attributes: {
+			displayEmptyFieldsToggle,
 			displayIconsToggle,
 			id,
 		},
@@ -75,6 +77,11 @@ const ExifData = ( props ) => {
 			</ul>
 		);
 	} else {
+		// All fields.
+		const metaFields = imageMetaData.media_details.image_meta;
+
+		// Strip empty fields if toggled.
+		const allowedKeys = true === displayEmptyFieldsToggle ? stripEmptyFields( metaFields ) : metaFields;
 
 		// Set exifData object.
 		setAttributes( { exifData: imageMetaData.media_details.image_meta } );
@@ -82,8 +89,8 @@ const ExifData = ( props ) => {
 		return (
 			<ExifFields
 				displayIcon={ displayIconsToggle }
-				exifData={ imageMetaData.media_details.image_meta }
-				allowedKeys={ Object.keys( imageMetaData.media_details.image_meta ) }
+				exifData={ metaFields }
+				allowedKeys={ Object.keys( allowedKeys ) }
 			/>
 		);
 	}
@@ -93,11 +100,13 @@ export default ExifData;
 
 ExifData.propTypes = {
 	attributes: {
+		displayEmptyFieldsToggle: PropTypes.bool,
 		displayIconsToggle: PropTypes.bool,
 		id: PropTypes.number.isRequired,
 	}
 };
 
 ExifData.defaultProps = {
+	displayEmptyFieldsToggle: false,
 	displayIcon: false,
 };
