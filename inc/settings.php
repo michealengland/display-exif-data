@@ -10,7 +10,7 @@ function ded_settings_init() {
 	// Register a new section in the "ded" page.
 	add_settings_section(
 		'ded_section_developers',
-		__( 'Allowed Exif Fields', 'ded' ),
+		__( 'Field Display Settings', 'ded' ),
 		'ded_section_allowed_fields_cb',
 		'ded'
 	);
@@ -21,7 +21,7 @@ function ded_settings_init() {
 	// Register field to "ded" settings page in "ded_section_developers" section.
 	add_settings_field(
 		'ded_field_aperture',
-		__( 'Allowed Fields', 'ded' ),
+		__( 'Disable Exif Fields', 'ded' ),
 		'ded_setting_fields_cb',
 		'ded',
 		'ded_section_developers',
@@ -61,7 +61,7 @@ function ded_setting_fields_sanitize( $ded_options ) {
  */
 function ded_section_allowed_fields_cb( $args ) {
 	?>
-	<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Check all fields you wish to display.', 'ded' ); ?></p>
+	<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Check all fields you wish to exclude from being displayed sitewide.', 'ded' ); ?></p>
 	<?php
 }
 
