@@ -12,15 +12,15 @@ const {
 } = dedOptions;
 
 const ExifFields = ( { allowedKeys, displayIcon, exifData } ) => {
-	// Determine if plugin settings defaults are enabled.
-	const enabledFields = options ? Object.keys( options ) : allowedKeys;
+	// Remove disabled fields in plugin settings fomr allowedKeys.
+	const enabledFields = allowedKeys.filter(x => ! Object.keys( options ).includes( x ) );
 
 	return (
 		<ul>
 			{ enabledFields.map( ( key ) => {
 				return (
 					<li key={ key }>
-						{  displayIcon ? <ExifIcon icon={ key } /> : '' }
+						{ displayIcon && <ExifIcon icon={ key } /> }
 						{ `${ key }: ${ exifData[key].toString() }` }
 					</li>
 				);
