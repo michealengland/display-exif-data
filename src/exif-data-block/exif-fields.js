@@ -15,16 +15,17 @@ const ExifFields = ( { allowedKeys, displayIcon, exifData } ) => {
 	// Remove disabled fields in plugin settings fomr allowedKeys.
 	const enabledFields = allowedKeys.filter(x => ! Object.keys( options ).includes( x ) );
 
+	// List of fields.
+	const listItems = enabledFields.map( ( key ) => (
+		<li key={ key }>
+			{ displayIcon && <ExifIcon icon={ key } /> }
+			{ `${ key }: ${ exifData[key].toString() }` }
+		</li>
+	) );
+
 	return (
 		<ul>
-			{ enabledFields.map( ( key ) => {
-				return (
-					<li key={ key }>
-						{ displayIcon && <ExifIcon icon={ key } /> }
-						{ `${ key }: ${ exifData[key].toString() }` }
-					</li>
-				);
-			} ) }
+			{ listItems }
 		</ul>
 	);
 }
