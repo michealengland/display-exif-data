@@ -3,7 +3,7 @@
  *
  * @param {*} fields object
  */
-export default function stripEmptyFields( fields ) {
+export const stripEmptyFields = ( fields ) => {
 	// Clone object fields.
 	const clonedFields = {
 		...fields
