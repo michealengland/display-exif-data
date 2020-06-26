@@ -68,15 +68,18 @@ const ExifIcon = ( props ) => {
 		case 'keywords':
 			svgElement = <Label />
 			break;
-
-		case 'orientation':
+		case 'landscape':
 			svgElement =
 			<>
 				<Landscape />
+			</>;
+			break;
+		case 'portrait':
+			svgElement =
+			<>
 				<Portrait />
 			</>;
 			break;
-
 		case 'shutter_speed':
 			svgElement = <ShutterSpeed />;
 			break;
