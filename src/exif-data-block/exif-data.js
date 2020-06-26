@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-import stripEmptyFields from '../utils/remove-empty-properties';
+import { stripEmptyFields } from '../utils';
 
 /**
  * WordPress dependencies
