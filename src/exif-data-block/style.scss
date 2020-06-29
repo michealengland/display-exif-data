@@ -1,6 +1,4 @@
 .exif-data-enabled {
-	font-size: 1rem;
-
 	ul {
 		list-style-position: inside;
 
@@ -8,6 +6,7 @@
 			list-style: none;
 
 			svg {
+				display: inline-block;
 				margin-right: 6px;
 				position: relative;
 				top: 6px;

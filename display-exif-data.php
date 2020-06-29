@@ -3,13 +3,13 @@
  * Plugin Name:       Display Exif Data
  * Plugin URI:        https://github.com/michealengland/display-exif-data
  * Description:       Display exif data hidden in images.
- * Version:           0.0.4
+ * Version:           0.1.0
  * Author:            Mike England
  * Author URI:        https://twitter.com/mikelikethebike
  * License:           GPLv3
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 5.1
- * Tested up to:      5.3.0
+ * Tested up to:      5.4.2
  * Text Domain:       ded
  * Domain Path:       /languages
  *
@@ -90,5 +90,16 @@ function register_block() {
 			true
 		);
 	}
+
+	// Local plugin settings to be available
+	// as JS variable `dedOptions`.
+	wp_localize_script(
+		'ded-editor-script',
+		'dedOptions',
+		[ 'options' => get_option( 'ded_options' ) ]
+	);
 }
 add_action( 'init', __NAMESPACE__ . '\register_block' );
+
+// Enqueue files.
+include_once( plugin_dir_path( __FILE__ ) . '/inc/settings.php' );

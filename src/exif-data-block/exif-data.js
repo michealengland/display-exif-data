@@ -1,19 +1,22 @@
 /**
  * Internal dependencies
  */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-
-/**
- * WordPress dependencies
- */
-import apiFetch from '@wordpress/api-fetch';
 import ExifFields from  './exif-fields';
+import { fetchExifData, stripEmptyFields } from '../utils';
+
+const {
+	i18n: {
+		__,
+	},
+} = wp;
 
 const ExifData = ( props ) => {
 	const {
 		attributes: {
+			displayEmptyFieldsToggle,
 			displayIconsToggle,
 			id,
 		},
@@ -25,56 +28,55 @@ const ExifData = ( props ) => {
 	const [loadError, setLoadError] = useState(false);
 	const [mediaId, setMediaId] = useState( id );
 
-	// fetch if imageMetaData is empty.
-	// fetch if id has changed.
-	if ( isEmpty( imageMetaData ) || id !== mediaId ) {
+	useEffect(() => {
+		// fetch if imageMetaData is empty.
+		// fetch if id has changed.
+		if ( isEmpty( imageMetaData ) || id !== mediaId ) {
 
-		// Update mediaID state on ID change.
-		if ( id !== mediaId ) {
-			setMediaId( id );
-		}
-
-		// Run fetch on current ID.
-		const promise = apiFetch( {
-			path: `/wp/v2/media/${ id }`,
-			method: 'GET',
-		} );
-
-		// On success update image metadata state with object.
-		const success = ( response ) => {
-			if ( ! isEmpty( imageMetaData ) && id === mediaId ) {
-				return;
+			// Update mediaID state on ID change.
+			if ( id !== mediaId ) {
+				setMediaId( id );
 			}
 
-			setImageMetaData( response );
-		};
+			// Get media data.
+			const promise = fetchExifData(id);
 
-		// On failure log an error and update loadError state.
-		const failure = ( errorResponse ) => {
-			// Log error.
-			console.error( 'Failed to retrieve exif data.', errorResponse );
+			// Handle promise.
+			promise.then(
+				// On success update image metadata state with object.
+				( response ) => {
+					if ( ! isEmpty( imageMetaData ) && id === mediaId ) {
+						return;
+					}
 
-			// Set state.
-			setLoadError( true );
-		};
+					setImageMetaData( response );
+				},
+				// On failure log an error and update loadError state.
+				( errorResponse ) => {
+					// Log error.
+					console.error( __( 'Failed to retrieve exif data.', 'ded' ), errorResponse );
 
-		// Check if value succeeds or fails.
-		promise.then( success, failure );
-	}
+					// Set state.
+					setLoadError( true );
+				},
+			);
+		}
+	}, [id]);
 
 	if ( loadError ) {
 		return (
-			<ul>
-				<li>{ 'Failed to retrieve exif data.' }</li>
-			</ul>
+			<p className="error">{ __( 'Failed to retrieve exif data.', 'ded' ) }</p>
 		);
 	} else if ( isEmpty( imageMetaData ) ) {
 		return (
-			<ul>
-				<li>{ 'Loading Metadata...' }</li>
-			</ul>
+			<p>{ __( 'Loading Metadata...', 'ded' ) }</p>
 		);
 	} else {
+		// All fields.
+		const metaFields = imageMetaData.media_details.image_meta;
+
+		// Strip empty fields if toggled.
+		const allowedKeys = true === displayEmptyFieldsToggle ? stripEmptyFields( metaFields ) : metaFields;
 
 		// Set exifData object.
 		setAttributes( { exifData: imageMetaData.media_details.image_meta } );
@@ -82,8 +84,8 @@ const ExifData = ( props ) => {
 		return (
 			<ExifFields
 				displayIcon={ displayIconsToggle }
-				exifData={ imageMetaData.media_details.image_meta }
-				allowedKeys={ Object.keys( imageMetaData.media_details.image_meta ) }
+				exifData={ metaFields }
+				allowedKeys={ Object.keys( allowedKeys ) }
 			/>
 		);
 	}
@@ -93,11 +95,13 @@ export default ExifData;
 
 ExifData.propTypes = {
 	attributes: {
+		displayEmptyFieldsToggle: PropTypes.bool,
 		displayIconsToggle: PropTypes.bool,
 		id: PropTypes.number.isRequired,
 	}
 };
 
 ExifData.defaultProps = {
+	displayEmptyFieldsToggle: false,
 	displayIcon: false,
 };
