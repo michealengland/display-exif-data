@@ -1,10 +1,10 @@
 /**
  * Internal dependencies
  */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-import { stripEmptyFields } from '../utils';
+import { fetchExifData, stripEmptyFields } from '../utils';
 
 /**
  * WordPress dependencies
@@ -27,42 +27,40 @@ const ExifData = ( props ) => {
 	const [loadError, setLoadError] = useState(false);
 	const [mediaId, setMediaId] = useState( id );
 
-	// fetch if imageMetaData is empty.
-	// fetch if id has changed.
-	if ( isEmpty( imageMetaData ) || id !== mediaId ) {
+	useEffect(() => {
+		// fetch if imageMetaData is empty.
+		// fetch if id has changed.
+		if ( isEmpty( imageMetaData ) || id !== mediaId ) {
 
-		// Update mediaID state on ID change.
-		if ( id !== mediaId ) {
-			setMediaId( id );
-		}
-
-		// Run fetch on current ID.
-		const promise = apiFetch( {
-			path: `/wp/v2/media/${ id }`,
-			method: 'GET',
-		} );
-
-		// On success update image metadata state with object.
-		const success = ( response ) => {
-			if ( ! isEmpty( imageMetaData ) && id === mediaId ) {
-				return;
+			// Update mediaID state on ID change.
+			if ( id !== mediaId ) {
+				setMediaId( id );
 			}
 
-			setImageMetaData( response );
-		};
+			// Get media data.
+			const promise = fetchExifData(id);
 
-		// On failure log an error and update loadError state.
-		const failure = ( errorResponse ) => {
-			// Log error.
-			console.error( 'Failed to retrieve exif data.', errorResponse );
+			// Handle promise.
+			promise.then(
+				// On success update image metadata state with object.
+				( response ) => {
+					if ( ! isEmpty( imageMetaData ) && id === mediaId ) {
+						return;
+					}
 
-			// Set state.
-			setLoadError( true );
-		};
+					setImageMetaData( response );
+				},
+				// On failure log an error and update loadError state.
+				( errorResponse ) => {
+					// Log error.
+					console.error( 'Failed to retrieve exif data.', errorResponse );
 
-		// Check if value succeeds or fails.
-		promise.then( success, failure );
-	}
+					// Set state.
+					setLoadError( true );
+				},
+			);
+		}
+	}, [id]);
 
 	if ( loadError ) {
 		return (
