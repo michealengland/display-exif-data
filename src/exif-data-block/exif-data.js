@@ -7,6 +7,12 @@ import PropTypes from 'prop-types';
 import ExifFields from  './exif-fields';
 import { fetchExifData, stripEmptyFields } from '../utils';
 
+const {
+	i18n: {
+		__,
+	},
+} = wp;
+
 const ExifData = ( props ) => {
 	const {
 		attributes: {
@@ -48,7 +54,7 @@ const ExifData = ( props ) => {
 				// On failure log an error and update loadError state.
 				( errorResponse ) => {
 					// Log error.
-					console.error( 'Failed to retrieve exif data.', errorResponse );
+					console.error( __( 'Failed to retrieve exif data.', 'ded' ), errorResponse );
 
 					// Set state.
 					setLoadError( true );
@@ -59,15 +65,11 @@ const ExifData = ( props ) => {
 
 	if ( loadError ) {
 		return (
-			<ul>
-				<li>{ 'Failed to retrieve exif data.' }</li>
-			</ul>
+			<p className="error">{ __( 'Failed to retrieve exif data.', 'ded' ) }</p>
 		);
 	} else if ( isEmpty( imageMetaData ) ) {
 		return (
-			<ul>
-				<li>{ 'Loading Metadata...' }</li>
-			</ul>
+			<p>{ __( 'Loading Metadata...', 'ded' ) }</p>
 		);
 	} else {
 		// All fields.
