@@ -11,7 +11,7 @@ const {
  * @returns {string} formattedDate a human readable date.
  */
 export const formatUnixTimeStamp = (unixTimeStamp) => {
-	if ( typeof unixTimeStamp !== 'number' ) {
+	if ( typeof unixTimeStamp !== 'string' ) {
 		return unixTimeStamp;
 	}
 
@@ -21,8 +21,16 @@ export const formatUnixTimeStamp = (unixTimeStamp) => {
 	// Create new dateObject.
 	const dateObject = new Date(milliseconds);
 
-	// Create filterable date.
-	const formattedDate = dateObject.toLocaleString(applyFilters('ded.dateLocaleStringFormat', '')) //2019-12-9 10:30:15
+	/**
+	 * Filterable date.
+	 *
+	 * @example 2019-12-9 10:30:15
+	 */
+	const formattedDate = applyFilters(
+		'ded.dateLocaleFormat',
+		dateObject,
+		milliseconds,
+	);
 
-	return formattedDate;
+	return formattedDate.toLocaleString();
 }
