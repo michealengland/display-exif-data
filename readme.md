@@ -1,7 +1,5 @@
 
 # About This Plugin
-**This plugin is under development.**
-
 Display Exif Data is WordPress plugin for displaying exif data hidden in images.
 
 ## How to Use
@@ -23,6 +21,17 @@ https://developer.wordpress.org/block-editor/tutorials/javascript/js-build-setup
 - Use `npm run build` for compiling production ready files.
 
 ## Changelog
+
+### 0.1.0
+- Plugin refactor
+- Add utils directory with helper functions
+- Update block display format
+- Add plugin setting admin page
+- Add UI controls for empty fields
+- Update icon display for "orientation"
+- Add timestamp
+- Add JavaScript hook `ded.dateLocaleFormat` for modifying date display
+- Update notifications
 
 ### 0.0.4
 - Update plugin structure to use WDS Block Starter
