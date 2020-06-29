@@ -4,13 +4,8 @@
 import { useState, useEffect } from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-import { fetchExifData, stripEmptyFields } from '../utils';
-
-/**
- * WordPress dependencies
- */
-import apiFetch from '@wordpress/api-fetch';
 import ExifFields from  './exif-fields';
+import { fetchExifData, stripEmptyFields } from '../utils';
 
 const ExifData = ( props ) => {
 	const {
