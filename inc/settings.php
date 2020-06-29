@@ -2,12 +2,12 @@
 /**
  * Create Display Exif Data options page.
  *
- * @return void
+ * Register settings section and settings field.
+ *
  * @author Mike England <mike.england@webdevstudios.com>
  * @since 2020-03-29
  */
 function ded_settings_init() {
-	// Register a new section in the "ded" page.
 	add_settings_section(
 		'ded_section_developers',
 		__( 'Field Display Settings', 'ded' ),
@@ -15,10 +15,8 @@ function ded_settings_init() {
 		'ded'
 	);
 
-	// Register a new setting for "ded" page.
 	register_setting( 'ded', 'ded_options', 'ded_setting_fields_sanitize', );
 
-	// Register field to "ded" settings page in "ded_section_developers" section.
 	add_settings_field(
 		'ded_field_aperture',
 		__( 'Disable Exif Fields', 'ded' ),
@@ -35,7 +33,7 @@ function ded_settings_init() {
 add_action( 'admin_init', 'ded_settings_init' );
 
 /**
- * Undocumented function
+ * Determine boolean value for checkbox options.
  *
  * @param mixed $ded_options fields.
  * @return $ded_options
@@ -43,11 +41,12 @@ add_action( 'admin_init', 'ded_settings_init' );
  * @since 2020-03-29
  */
 function ded_setting_fields_sanitize( $ded_options ) {
-
-	// loop through array.
-	$ded_options = array_map( function( $check_box ) {
-		return 'on' === $check_box ? true : false;
-	}, $ded_options );
+	$ded_options = array_map(
+		// Check each option for 'on' for boolean.
+		function( $check_box ) {
+			return 'on' === $check_box ? true : false;
+		}, $ded_options
+	);
 
 	return $ded_options;
 }
@@ -75,7 +74,6 @@ function ded_section_allowed_fields_cb( $args ) {
  * @since 2020-03-29
  */
 function ded_setting_fields_cb( $args ) {
-
 	$options = get_option( 'ded_options' );
 
 	// Field keys matched to media API fields.
@@ -102,8 +100,13 @@ function ded_setting_fields_cb( $args ) {
 		?>
 
 		<div>
-			<input type="checkbox" id="<?php echo $field_id; ?>" name="ded_options[<?php echo $field; ?>]" <?php checked( $options[ $field ] ?? false ); ?>>
-			<label for="<?php echo $field_id; ?>"><?php echo $field_label; ?></label>
+			<input
+				type="checkbox"
+				id="<?php echo esc_attr( $field_id ); ?>"
+				name="ded_options[<?php echo esc_attr( $field ); ?>]"
+				<?php checked( $options[ $field ] ?? false ); ?>
+			>
+			<label for="<?php echo esc_attr( $field_id ); ?>"><?php echo esc_attr( $field_label ); ?></label>
 		</div>
 
 		<?php
@@ -111,20 +114,8 @@ function ded_setting_fields_cb( $args ) {
 }
 
 /**
- * Undocumented function
+ * Registers Exif Data Settings Admin Page.
  *
- * @param [type] $args options.
- * @author Mike England <mike.england@webdevstudios.com>
- * @since 2020-03-29
- */
-function ded_allowed_fields_cb( $args ) {
-	$options = get_option( 'ded_options' );
-}
-
-/**
- * Undocumented function
- *
- * @return void
  * @author Mike England <mike.england@webdevstudios.com>
  * @since 2020-03-29
  */
@@ -141,7 +132,7 @@ function ded_options_page() {
 add_action( 'admin_menu', 'ded_options_page' );
 
 /**
- * Undocumented function
+ * Render form in Exif Data Settings Admin Settings page.
  *
  * @return void
  * @author Mike England <mike.england@webdevstudios.com>
@@ -156,20 +147,21 @@ function ded_options_page_html() {
 	// add error/update messages.
 	if ( isset( $_GET['settings-updated'] ) ) {
 		// add settings saved message with the class of "updated".
-		add_settings_error( 'ded_messages', 'ded_message', __( 'Settings Saved', 'ded' ), 'updated' );
+		add_settings_error(
+			'ded_messages',
+			'ded_message',
+			__( 'Settings Saved', 'ded' ),
+			'updated'
+		);
 	}
 
-	// show error/update messages.
 	settings_errors( 'ded_messages' );
 	?>
 	<div class="wrap">
 		<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 		<form action="options.php" method="post">
 			<?php
-			// output security fields for the registered setting "ded".
 			settings_fields( 'ded' );
-			// output setting sections and their fields.
-			// (sections are registered for "ded", each field is registered to a specific section).
 			do_settings_sections( 'ded' );
 			submit_button( 'Update Settings' );
 			?>
