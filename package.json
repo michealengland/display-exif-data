@@ -4,6 +4,8 @@
 	"description": "Tooling for Display Exif Data plugin.",
 	"main": "src/index.js",
 	"scripts": {
+		"test:e2e": "wp-scripts test-e2e",
+		"test:unit": "wp-scripts test-unit-js",
 		"start": "wp-scripts start",
 		"dev": "wp-scripts start",
 		"watch": "wp-scripts start",
