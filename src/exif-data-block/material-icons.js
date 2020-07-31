@@ -23,13 +23,7 @@ import {
 	TagFaces,
 } from './icons';
 
-const ExifIcon = ( props ) => {
-	const {
-		className,
-		icon,
-		size,
-	} = props;
-
+const ExifIcon = ( { className, icon, size } ) => {
 	let svgElement;
 
 	switch ( icon ) {
