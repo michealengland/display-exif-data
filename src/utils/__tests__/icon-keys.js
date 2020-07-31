@@ -1,5 +1,7 @@
-const sum = (a, b) => a + b;
+import { convertKeysToIcons } from 'src/utils/icon-keys.js';
 
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
+test('converKeysToIcons empty key', () => {
+	expect(
+		convertKeysToIcons( '', {a: 'test'} )  )
+	.toBe('');
 });
